@@ -1,0 +1,63 @@
+{% extends "MainLayout.html" %}
+{% block content %}
+<p style="font-size:28px; text-align: center; margin-top: 50px" > {{ error }} </p>
+<div class="scroll" id="Textfeld" style="margin-top: 25px; margin-left: 12%; margin-right: 12%; height: 400px; overflow: scroll; position: relative">
+    <!--
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="15" disabled style="background-color:White">
+        {% for i in range(Nachrichten|count()) %}
+        {{ Nachrichten[i]['Inhalt'] }}
+        {% endfor %}
+    </textarea>
+    -->
+    {% for i in range(Nachrichten|count()) %}
+    {% if Nachrichten[i]['Sender'] == error %}
+    <p style="text-align: left; margin-left: 10px; max-width: 60%; position: relativ; float: left; clear: both; background-color: #bfbfbf"> {{ Nachrichten[i]['Inhalt'] }} </p>
+    {% else %}
+    <p style="text-align: left; margin-right: 3%; max-width: 60%; position: relativ; float: right; clear: both; background-color: #1a75ff"> {{ Nachrichten[i]['Inhalt'] }} </p>
+    {% endif %}
+    {% endfor %}
+    </div>
+</div>
+<script type="text/javascript">
+  var anzahl = {{Nachrichten|count()}}
+</script>
+  <script type="text/javascript">
+    var objDiv = document.getElementById("Textfeld");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  </script>
+  <script type="text/javascript">
+    setInterval(function(){
+      console.log('test');
+      request = $.ajax({
+        url: "http://localhost:8080/RLChat",
+        type: "post",
+        data: {"submit": "Killergondel"}
+    });
+    $(request.done(function( o ) {
+      var obj = JSON.parse(request.responseText);
+      for (var i = anzahl; i < obj.length; i++) {
+        if (obj[i][2] == '{{error}}') {
+          document.getElementById('Textfeld').innerHTML += '<p style="text-align: left; margin-left: 10px; max-width: 60%; position: relativ; float: left; clear: both">' + obj[i][0] + '</p>';
+        }
+        else {
+          document.getElementById('Textfeld').innerHTML += '<p style="text-align: left; margin-right: 10px; max-width: 60%; position: relativ; float: right; clear: both">' + obj[i][0] + '</p>'';
+        }
+        anzahl = anzahl + 1;
+        var objDiv = document.getElementById("Textfeld");
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+  }));
+},5000);
+  </script>
+<div style="text-align: center">
+  <br>
+  <form  action="/Chat" method="get">
+    <!-- <input type="text" name="Benutzername" style="margin:5px"> -->
+    <textarea id= "eingabe" name="Benutzername" rows="2" cols="50"></textarea>
+    <br>
+    <button type="submit" class="btn btn-danger" style="margin:5px" name="submit" value="{{error}}" >Senden</button>
+    <br>
+    <br>
+  </form>
+</div>
+{% endblock %}

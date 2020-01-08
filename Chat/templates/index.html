@@ -1,0 +1,23 @@
+{% extends "MainLayout.html" %}
+{% block content %}
+<div style="text-align: center; margin-top: 5%">
+  <p style="font-size:28px"> Chats: </p>
+  <form action="/Chat" method="post">
+  <button type="submit" style="width: 200px; margin: 10px" value="NeuChat" name="action" class="btn btn-success">Chat erstellen</button>
+  <br>
+  {% if error|count() == 0 %}
+    <p style="font-size:28px" > "Du Hast noch keine Chats" </p>
+  {% else %}
+  {% for i in range(error|count()) %}
+  {% if error[i]['Sender'] == username %}
+    <button type="submit" style="width: 200px; margin: 10px; background-color: White; border-width: 0px; font-size:18px; text-align: left" value="{{ error[i]['Empfaenger'] }}" name="action">{{ error[i]['Empfaenger'] }} <br> <p style="font-size:10px; text-align: left; display: flex"> {{ error[i]['Inhalt'] }}  </p> <p style="font-size:10px; text-align: right; justify-content: space-between"> {{ error[i]['Zeit'][10:-7] }} </p> </button>
+    <br>
+  {% else %}
+    <button type="submit" style="width: 200px; margin: 10px; background-color: White; border-width: 0px; font-size:18px; text-align: left" value="{{ error[i]['Sender'] }}" name="action">{{ error[i]['Sender'] }}  <br> <p style="font-size:10px; text-align: left; display: flex"> {{ error[i]['Inhalt'] }} </p> <p style="font-size:10px; text-align: right; justify-content: space-between"> {{ error[i]['Zeit'][10:-7] }} </p> </button>
+    <br>
+  {% endif %}
+  {% endfor %}
+  </form>
+{% endif %}
+</div>
+{% endblock %}

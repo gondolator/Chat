@@ -1,0 +1,28 @@
+{% extends "MainLayout.html" %}
+{% block content %}
+<br>
+<br>
+<div style="text-align: center">
+<form  action="/AddContact" method="post">
+  <input type="text" name="Benutzername" style="margin:5px">
+  <br>
+  <button type="submit" class="btn btn-warning" style="margin:5px">Add Contact</button>
+  <br>
+  <br>
+</form>
+{% if error|count() == 0 %}
+  <p style="font-size:28px" > "Du Hast noch keine Kontakte" </p>
+{% else %}
+<form action="/profil" method="post">
+  {% for i in range(error|count()) %}
+  {% if error[i]['Blockiert'] == 0 %}
+  <button type="submit" style="width: 200px; margin: 10px" value="{{ error[i]['Benutzername'] }}" name="Profilseite" class="btn btn-success">{{ error[i]['Benutzername'] }}</button>
+  {% else %}
+  <button type="submit" style="width: 200px; margin: 10px" value="{{ error[i]['Benutzername'] }}" name="Profilseite" class="btn btn-warning">{{ error[i]['Benutzername'] }}</button>
+  {% endif %}
+  <br>
+  {% endfor %}
+  </form>
+{% endif %}
+</div>
+{% endblock %}

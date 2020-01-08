@@ -1,0 +1,52 @@
+{% extends "MainLayout.html" %}
+{% block content %}
+<div style="text-align: center">
+  <form action="/saveProfil" method="post" enctype=multipart/form-data>
+  <div style="width:40%; border:5px; float:left">
+    <p style="font-size:20px" > Benutzername: </p>
+    <input type="hidden" name="ID" value="{{Accountdaten[0]['ID']}}">
+    <input type="text" name="Benutzername" value="{{Accountdaten[0]['Benutzername']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <br>
+    <p style="font-size:20px" > Status: </p>
+    <textarea type="text" name="Status" value="{{Accountdaten[0]['Status']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %} rows="5" cols="80">{{Accountdaten[0]['Status']}}</textarea>
+    <br>
+    <p style="font-size:20px" > Name: </p>
+    <input type="text" name="Vorname" value="{{Accountdaten[0]['Vorname']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <input type="text" name="Nachname" value="{{Accountdaten[0]['Nachname']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <br>
+    <p style="font-size:20px" > EMail: </p>
+    <input type="text" name="EMail" value="{{Accountdaten[0]['EMail']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+  </div>
+  <div style="width:40%; border:5px; float:right">
+    <p style="font-size:20px" > Telefonnummer: </p>
+    <input type="text" name="Telefonnummer" value="{{Accountdaten[0]['Telefonnummer']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <br>
+    <p style="font-size:20px" > Geburtstag: </p>
+    <input type="date" name="Geburtstag" value="{{Accountdaten[0]['Geburtstag']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <br>
+    <p style="font-size:20px" > Adresse: </p>
+    <input type="text" name="Postleitzahl" value="{{Accountdaten[0]['Postleitzahl']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <input type="text" name="Stadt" value="{{Accountdaten[0]['Stadt']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <input type="text" name="Straße" value="{{Accountdaten[0]['Straße']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <input type="text" name="Hausnummer" value="{{Accountdaten[0]['Hausnummer']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <input type="text" name="Addresszusatz" value="{{Accountdaten[0]['Addresszusatz']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+    <br>
+    {% if current_user.username == Accountdaten[0]['Benutzername'] %}
+    <button type="submit" name="save" value="Speichern" class="btn btn-danger">Speichern</button>
+    {% else %}
+    <button type="submit" name="save" value="{{Accountdaten[0]['Benutzername']}}" class="btn btn-danger">Chat Starten</button>
+    <button type="submit" name="block" value="{{Accountdaten[0]['Benutzername']}}" class="btn btn-danger">Blockieren</button>
+    {% endif %}
+  </div>
+  <div style="position: fixed; margin-top: 15%; margin-right: 25%; margin-left: 25%">
+    {% if Accountdaten[0]['Profilbild'] %}
+      <img style="width:20%;" src="static/{{Accountdaten[0]['Profilbild']}}">
+    {% else %}
+      <img style="width:20%;" src="static/defaults.jpg">
+    {% endif %}
+  <br>
+  <input type="file" name="file" value="{{Accountdaten[0]['Profilbild']}}" style="border:0px; text-align: center" {% if current_user.username != Accountdaten[0]['Benutzername']%} readonly {% endif %}>
+  </div>
+</form>
+</div>
+{% endblock %}
